@@ -1,0 +1,56 @@
+class Solution {
+public:
+
+    bool isValid(string s) {
+       stack<char> st;
+        for (int i = 0; i < s.size(); i++) {
+            char ch = s[i];
+            // Opening Bracket
+            if (ch == '(' || ch == '{' || ch == '[') {
+                st.push(ch);
+            }
+            // Closing Bracket
+            else {
+                if (!st.empty()) {
+                    // topE==( as hum stack me yhi hai.. but loop age gya hoga aur  aisa ) mila hoga so ye ch hai ,,, na ki ye top hai..top me bas (,{,[ aa sakte hai...smjjheee 
+                    char topE = st.top();
+                    if ((ch == ')' && topE == '(') ||
+                        (ch == ']' && topE == '[') ||
+                        (ch == '}' && topE == '{')) {
+                        st.pop();
+                    } else {
+                      //  ( ) ( }
+                        // Bracket not matching
+                        return false;
+                    }
+                }
+                 else {
+                    // There's no matching open bracket for the current closing bracket
+                    // here stack is empty, as if me stack is not empty hai
+                    // e.g=( ) ] " ye last wala **closing " ] "** hona chaiye agr opening hua to push hoga aur uper wale condition me match hoga that is "**Bracket not matching** ""
+                    return false;
+                }
+            }
+        }
+        if (st.empty()) {
+            return true;
+        } else {
+            return false; // There are unmatched open brackets in the stack
+        }
+    }
+    
+    
+};
+//Bracket not matching":
+/*
+This condition is encountered when a closing bracket is found in the input string, and there is a mismatch with the most recent open bracket on the stack. In other words, the current character (closing bracket) does not correspond to the type of bracket that is at the top of the stack.
+For example, if the stack contains an opening parenthesis '(', and the current character is a closing square bracket ']', this condition is triggered because there is no match between them.
+*/
+/*
+There's no matching open bracket for the current closing bracket":
+
+This condition is also encountered when a closing bracket is found in the input string. However, it's specifically used when there are no open brackets on the stack, which implies that there is no corresponding open bracket to match with the current closing bracket.
+For example, if the stack is empty, and the current character is a closing parenthesis ')', there is no matching open parenthesis '('. In this case, the condition indicates that there is no open bracket to match with the current closing bracket, and it's a sign of an unbalanced input string.
+
+
+*/
